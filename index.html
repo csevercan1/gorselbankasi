@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive Görsel Arama</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fab fa-google-drive"></i> Görsel Arşivi</h1>
+            <p>Aradığınız görselin adını yazın veya tümünü listelemek için doğrudan arama tuşuna basın.</p>
+        </header>
+
+        <div class="search-section">
+            <div class="input-group">
+                <input type="text" id="searchInput" placeholder="Görsel adında kelime ara... (örn: logo, manzara)" autocomplete="off">
+            </div>
+            <button id="searchBtn" class="btn"><i class="fas fa-search"></i> Ara</button>
+        </div>
+
+        <div id="loader" class="loader hidden">
+            <div class="spinner"></div>
+            <p>Görseller yükleniyor...</p>
+        </div>
+
+        <div id="gallery" class="gallery">
+            <!-- Görseller buraya eklenecek -->
+        </div>
+        
+        <div id="error-message" class="error-message hidden"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
