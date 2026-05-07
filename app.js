@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchBtn = document.getElementById('searchBtn');
     const searchInput = document.getElementById('searchInput');
     const gallery = document.getElementById('gallery');
+    const resultCount = document.getElementById('resultCount');
     const loader = document.getElementById('loader');
     const errorMessage = document.getElementById('error-message');
 
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function fetchImages(searchTerm) {
         gallery.innerHTML = '';
         hideError();
+        resultCount.classList.add('hidden');
         loader.classList.remove('hidden');
 
         try {
@@ -54,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const files = data.files;
 
             if (files && files.length > 0) {
+                resultCount.textContent = `Toplam ${files.length} görsel bulundu.`;
+                resultCount.classList.remove('hidden');
                 renderImages(files);
             } else {
                 if(searchTerm) {
@@ -76,8 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'image-card';
             card.style.animationDelay = `${index * 0.05}s`;
             
+            // Küçük önizleme resmi (neon renk problemini kökten çözer ve hızlı yüklenir)
+            let imgUrl = file.thumbnailLink.replace('sz=w1200', 'sz=w400');
+
             card.innerHTML = `
-                <img src="${file.thumbnailLink}" alt="${file.name}" class="image-preview" loading="lazy">
+                <img src="${imgUrl}" alt="${file.name}" class="image-preview" loading="lazy">
                 <div class="image-info">
                     <div class="image-name" title="${file.name}">${file.name}</div>
                     <a href="${file.webContentLink}" class="download-btn" target="_blank" download="${file.name}">
@@ -91,9 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Lightbox açma işlemi
             const imgPreview = card.querySelector('.image-preview');
             imgPreview.addEventListener('click', () => {
-                // TIF dosyalarındaki "Neon Renk" (CMYK renk profili bozulması) sorununu çözmek için
-                // Google'dan devasa (w2000) değil, optimize edilmiş (w1200) boyut istiyoruz.
-                const highResUrl = file.thumbnailLink.replace('sz=w800', 'sz=w1200');
+                // TIF dosyalarındaki Neon Renk problemini ortadan kaldırmak için en stabil boyut w800'dür
+                const highResUrl = file.thumbnailLink.replace('sz=w1200', 'sz=w800');
                 
                 const lightbox = document.getElementById('lightbox');
                 const lightboxImg = document.getElementById('lightboxImage');

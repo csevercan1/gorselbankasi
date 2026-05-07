@@ -137,8 +137,8 @@ input:focus {
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
 }
 
 .image-card {
@@ -166,7 +166,7 @@ input:focus {
 
 .image-preview {
     width: 100%;
-    height: 220px;
+    height: 150px;
     object-fit: cover;
     background: rgba(0,0,0,0.2);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -182,9 +182,9 @@ input:focus {
 }
 
 .image-name {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     word-break: break-word;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -209,6 +209,15 @@ input:focus {
 .download-btn:hover {
     background: var(--accent);
     color: white;
+}
+
+.result-count {
+    text-align: center;
+    color: var(--accent);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    animation: fadeIn 0.5s ease-out;
 }
 
 /* Loader */
