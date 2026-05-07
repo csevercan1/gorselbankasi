@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // BURAYA KENDİ BİLGİLERİNİZİ GİRİN
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbywDPN3AxB5LRwXBBMK7qMTlA4oI6xJA6Qr2IxNh1CXR3EFm8xhq6yC6YcPEE_Nxoz7ow/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwNqfCTIQ6x8y9pt0trifnaxm1Yb8ZYefTeszc75_IAegwIHssUc0l1O-Zxyw13ZsgZww/exec';
     const FOLDER_ID = '1IIs4wmDMvE6DDNS3oI5f84QfYrMd7cT1';
 
     const searchBtn = document.getElementById('searchBtn');
