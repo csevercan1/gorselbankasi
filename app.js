@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // BURAYA KENDİ BİLGİLERİNİZİ GİRİN
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbybNXCATk_m3novwEsyeIBvgRIOGkJdvm1aB0OdofD9YTtcvlMU5bN0NNSXkpqZlxXMyA/exec';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbywDPN3AxB5LRwXBBMK7qMTlA4oI6xJA6Qr2IxNh1CXR3EFm8xhq6yC6YcPEE_Nxoz7ow/exec';
     const FOLDER_ID = '1IIs4wmDMvE6DDNS3oI5f84QfYrMd7cT1';
 
     const searchBtn = document.getElementById('searchBtn');
@@ -36,7 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Google Apps Script URL'sine istek atıyoruz
-            const url = `${WEB_APP_URL}?folderId=${FOLDER_ID}&search=${encodeURIComponent(searchTerm)}`;
+            // Tarayıcının eski (boş) sonucu önbellekten getirmesini engellemek için sonuna tarih damgası ekliyoruz
+            const url = `${WEB_APP_URL}?folderId=${FOLDER_ID}&search=${encodeURIComponent(searchTerm)}&t=${new Date().getTime()}`;
 
             const response = await fetch(url, { redirect: 'follow' });
             
