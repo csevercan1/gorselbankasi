@@ -91,8 +91,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Lightbox açma işlemi
             const imgPreview = card.querySelector('.image-preview');
             imgPreview.addEventListener('click', () => {
-                // Önizleme linkini w800'den w2000'e çevirerek daha büyük ve kaliteli halini çekiyoruz
-                const highResUrl = file.thumbnailLink.replace('sz=w800', 'sz=w2000');
+                // TIF dosyalarındaki "Neon Renk" (CMYK renk profili bozulması) sorununu çözmek için
+                // Google'dan devasa (w2000) değil, optimize edilmiş (w1200) boyut istiyoruz.
+                const highResUrl = file.thumbnailLink.replace('sz=w800', 'sz=w1200');
                 
                 const lightbox = document.getElementById('lightbox');
                 const lightboxImg = document.getElementById('lightboxImage');
