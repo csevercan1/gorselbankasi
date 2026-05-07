@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // BURAYA KENDİ BİLGİLERİNİZİ GİRİN
-    const API_KEY = 'BURAYA_API_ANAHTARINIZI_YAZIN';
-    const FOLDER_ID = 'BURAYA_KLASOR_ID_YAZIN';
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbybNXCATk_m3novwEsyeIBvgRIOGkJdvm1aB0OdofD9YTtcvlMU5bN0NNSXkpqZlxXMyA/exec';
+    const FOLDER_ID = '1IIs4wmDMvE6DDNS3oI5f84QfYrMd7cT1';
 
     const searchBtn = document.getElementById('searchBtn');
     const searchInput = document.getElementById('searchInput');
@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     searchBtn.addEventListener('click', () => {
-        if (API_KEY === 'BURAYA_API_ANAHTARINIZI_YAZIN' || FOLDER_ID === 'BURAYA_KLASOR_ID_YAZIN') {
-            showError("Lütfen kodun (app.js) içindeki API_KEY ve FOLDER_ID alanlarını doldurun!");
+        if (WEB_APP_URL === 'BURAYA_APPS_SCRIPT_LINKINI_YAPISTIRIN' || FOLDER_ID === 'BURAYA_KLASOR_ID_YAZIN') {
+            showError("Lütfen kodun (app.js) içindeki WEB_APP_URL ve FOLDER_ID alanlarını doldurun!");
             return;
         }
 
@@ -35,25 +35,21 @@ document.addEventListener('DOMContentLoaded', () => {
         loader.classList.remove('hidden');
 
         try {
-            // Temel sorgu: Klasörün içi, sadece resimler ve silinmemiş olanlar
-            let query = `'${FOLDER_ID}' in parents and mimeType contains 'image/' and trashed = false`;
-            
-            // Eğer arama terimi girildiyse isme göre filtrele
-            if (searchTerm) {
-                query += ` and name contains '${searchTerm}'`;
-            }
+            // Google Apps Script URL'sine istek atıyoruz
+            const url = `${WEB_APP_URL}?folderId=${FOLDER_ID}&search=${encodeURIComponent(searchTerm)}`;
 
-            const fields = 'files(id, name, thumbnailLink, webContentLink, mimeType)';
-            const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&key=${API_KEY}&pageSize=100`;
-
-            const response = await fetch(url);
+            const response = await fetch(url, { redirect: 'follow' });
             
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error.message || "Bilinmeyen bir hata oluştu.");
+                throw new Error("Sunucuya bağlanırken hata oluştu.");
             }
 
             const data = await response.json();
+
+            if (!data.success) {
+                throw new Error(data.error || "Görseller yüklenirken bir hata oluştu.");
+            }
+
             const files = data.files;
 
             if (files && files.length > 0) {
@@ -79,14 +75,11 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = 'image-card';
             card.style.animationDelay = `${index * 0.05}s`;
             
-            let imgUrl = file.thumbnailLink ? file.thumbnailLink.replace('=s220', '=s800') : 'https://via.placeholder.com/400x300?text=Önizleme+Yok';
-            let downloadUrl = file.webContentLink || `https://drive.google.com/uc?export=download&id=${file.id}`;
-
             card.innerHTML = `
-                <img src="${imgUrl}" alt="${file.name}" class="image-preview" loading="lazy">
+                <img src="${file.thumbnailLink}" alt="${file.name}" class="image-preview" loading="lazy">
                 <div class="image-info">
                     <div class="image-name" title="${file.name}">${file.name}</div>
-                    <a href="${downloadUrl}" class="download-btn" target="_blank" download="${file.name}">
+                    <a href="${file.webContentLink}" class="download-btn" target="_blank" download="${file.name}">
                         <i class="fas fa-download"></i> İndir
                     </a>
                 </div>
