@@ -87,6 +87,21 @@ document.addEventListener('DOMContentLoaded', () => {
             `;
             
             gallery.appendChild(card);
+
+            // Lightbox açma işlemi
+            const imgPreview = card.querySelector('.image-preview');
+            imgPreview.addEventListener('click', () => {
+                // Önizleme linkini w800'den w2000'e çevirerek daha büyük ve kaliteli halini çekiyoruz
+                const highResUrl = file.thumbnailLink.replace('sz=w800', 'sz=w2000');
+                
+                const lightbox = document.getElementById('lightbox');
+                const lightboxImg = document.getElementById('lightboxImage');
+                const lightboxCaption = document.getElementById('lightboxCaption');
+                
+                lightboxImg.src = highResUrl;
+                lightboxCaption.textContent = file.name;
+                lightbox.classList.remove('hidden');
+            });
         });
     }
 
@@ -98,4 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
     function hideError() {
         errorMessage.classList.add('hidden');
     }
+
+    // Lightbox kapatma işlemleri
+    const lightbox = document.getElementById('lightbox');
+    const lightboxClose = document.getElementById('lightboxClose');
+
+    // Kapatma butonuna (X) basıldığında
+    lightboxClose.addEventListener('click', () => {
+        lightbox.classList.add('hidden');
+    });
+
+    // Resmin dışındaki karanlık alana tıklandığında
+    lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+            lightbox.classList.add('hidden');
+        }
+    });
+
+    // Klavyeden ESC tuşuna basıldığında
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+            lightbox.classList.add('hidden');
+        }
+    });
 });
